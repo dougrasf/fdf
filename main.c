@@ -1,46 +1,55 @@
 #include "fdf.h"
 
-static int validations(int argc, char **argv)
+void print_mtx(char **mtx) //func de teste //tirar dps
 {
-	int fd;
-	char *buff;
-	int len;
-
-	buff = (char *)malloc(2 + 1);
-	fd = open(argv[1], O_RDONLY);
-	len = ft_strlen(argv[1]);
-	if(argc != 2 || len == NULL)
-	{
-		ret = ft_printf("Arguments Error\n");
-		return(1);
-	}
-	else if(ft_strnstr(argv[1], ".fdf", len) != NULL)
-	{
-		ret = ft_printf("File extension Error\n");
-		return(1);
-	}
-	else if(read(fd, buff, 2) == 0)
-	{
-		ret = ft_printf("Map Error\n");
-		return(1);
-	}
-	free(buff);
-	return(0)
+    int i = 0;
+    while (mtx[i])
+        ft_printf("%s\n", mtx[i++]);
 }
 
-void init_mlx(t_fdf *fdf, char **argv)
+static int validations(int argc, char **argv)
 {
-	
+	int len;
+
+	len = ft_strlen(argv[1]);
+	if(argc != 2 || len == 0)
+	{
+		ft_printf("Arguments Error\n");
+		return(1);
+	}
+	else if(!ft_strnstr(argv[1], ".fdf", len))
+	{
+		ft_printf("File extension Error\n");
+		return(1);
+	}
+	return(0);
+}
+
+void init_fdf(t_fdf *fdf, char *file)
+{
+	fdf->map = malloc(sizeof (t_map));
+	fdf->map->fd = open(file, O_RDONLY);
+	fdf->map->buff = get_next_line(fdf->map->fd);
+	while(fdf->map->buff)
+	{
+		fdf->map->line = ft_strjoin(fdf->map->line, fdf->map->buff);
+		free(fdf->map->buff);
+		fdf->map->buff = get_next_line(fdf->map->fd);
+	}
+	 fdf->map->matriz = ft_split(fdf->map->line, '\n');
+	free(fdf->map->line);
+	close(fdf->map->fd);
 }
 
 int main(int argc, char *argv[])
 {
 	t_fdf *fdf;
-	int len;
 
-	if(validations(argc,argv) == 1)
+	fdf = malloc(sizeof (t_fdf));
+	if(validations(argc, argv) == 1)
 		return(1);
-	init_mlx(fdf, argv[1]);
+	init_fdf(fdf, argv[1]);
+	print_mtx(fdf->map->matriz);
 	return(0);
 }
 
