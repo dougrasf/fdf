@@ -3,8 +3,8 @@
 void print_mtx(char **mtx) //func de teste //tirar dps
 {
     int i = 0;
-    while (mtx[i])
-        ft_printf("%s\n", mtx[i++]);
+    while (mtx[i++])
+        ft_printf("%s\n", mtx[i]);
 }
 
 static int validations(int argc, char **argv)
@@ -25,83 +25,87 @@ static int validations(int argc, char **argv)
 	return(0);
 }
 
-void init_fdf(t_fdf *fdf, char *file)
+void	ft_free(char **split)
 {
+	int	i;
+
+	if (!split)
+		return;
+	i = 0;
+	while (split[i++])
+		free(split[i]);
+	free(split);
+}
+
+void init_matriz(t_fdf *fdf, char *file)
+{
+	int i;
+	int j;
+	char **mtz;
+
+	i = 0;
+	j = 0;
 	fdf->map = malloc(sizeof (t_map));
 	fdf->map->fd = open(file, O_RDONLY);
-	fdf->map->buff = get_next_line(fdf->map->fd);
-	while(fdf->map->buff)
+
+	fdf->map->line = get_next_line(fdf->map->fd);
+	mtz = ft_split(fdf->map->line, ' ');
+	while(mtz[i])
+		i++;
+	 fdf->map->x = i;
+	// pega quantos elementos tem em x
+
+	ft_free(mtz);
+	while(fdf->map->line)
 	{
-		fdf->map->line = ft_strjoin(fdf->map->line, fdf->map->buff);
-		free(fdf->map->buff);
-		fdf->map->buff = get_next_line(fdf->map->fd);
+		j++;
+		free(fdf->map->line);
+		fdf->map->line = get_next_line(fdf->map->fd);
 	}
-	 fdf->map->matriz = ft_split(fdf->map->line, '\n');
-	free(fdf->map->line);
+	fdf->map->y = j;
+	// pega quantos elementos tem em y
+
+	fdf->map->matriz = (int **)malloc((fdf->map->y + 1) * sizeof(int *));
+	i = -1;
+	while(++i < fdf->map->y)
+		fdf->map->matriz[i] = (int *)malloc((fdf->map->x + 1) * sizeof(int));
+	// aloca espaço para a matriz baseado no numero de elementos x e y
 	close(fdf->map->fd);
+	free(fdf->map->line);
+	fdf->map->fd = open(file, O_RDONLY);
+	j = 0;
+	fdf->map->line = get_next_line(fdf->map->fd);
+	ft_printf("%s", fdf->map->line);
+	while(fdf->map->line)
+	{
+	i = -1;
+	mtz = ft_split(fdf->map->line, ' ');
+	print_mtx(mtz);
+	while(mtz[++i])
+			fdf->map->matriz[j][i] = ft_atoi(mtz[i]);
+		j++;
+		ft_free(mtz);
+		free(fdf->map->line);
+		fdf->map->line = get_next_line(fdf->map->fd);
+	}
+	//print_mtx(mtz);
+	ft_printf("\n\n%i\n", fdf->map->matriz[0][1]);
+}
+
+void init_fdf(t_fdf *fdf, char *file)
+{
+	init_matriz(fdf, file);
+	return;
 }
 
 int main(int argc, char *argv[])
 {
 	t_fdf *fdf;
 
+	fdf = NULL;
 	fdf = malloc(sizeof (t_fdf));
 	if(validations(argc, argv) == 1)
 		return(1);
 	init_fdf(fdf, argv[1]);
-	print_mtx(fdf->map->matriz);
 	return(0);
 }
-
-/*
-
-	static int key_hook(int key, t_fdf *fdf)
-{
-	if(key == 65307 || key == 113) // ESC ou Q
-	{
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		mlx_destroy_display(fdf->mlx);
-		free(fdf->mlx);
-		free(fdf);
-		exit(0);
-	}
-	else
-		ft_printf("tecla:%i\n", key);
-	return(0);
-}
-
-	x = 200;
-	y = 200;
-
-	if(argc != 2)
-		return(0);
-	fdf = malloc(sizeof * (fdf));
-	if(fdf == NULL)
-		return(0);
-	fdf->mlx = mlx_init();
-	if(fdf->mlx == NULL)
-	{
-		free(fdf);
-		return(0);
-	}
-	fdf->win = mlx_new_window(fdf->mlx, 600, 600, "Fdf");
-	if(fdf->win)
-		{
-			free(fdf->mlx);
-			free(fdf);
-			return(0);
-		}
-	while(x++ < 400 && y++ < 400)
-	{
-		mlx_pixel_put(fdf->mlx, fdf->win, x,200,225);
-		mlx_pixel_put(fdf->mlx, fdf->win,x,400,225);
-		mlx_pixel_put(fdf->mlx, fdf->win, 200,y,225);
-		mlx_pixel_put(fdf->mlx, fdf->win,400,y,225);
-	}
-	mlx_string_put(fdf->mlx, fdf->win, 250,300, 0x00FF00, "suco ");
-	mlx_string_put(fdf->mlx, fdf->win, 280,300, 0xFF00FF, "addes ");
-	mlx_string_put(fdf->mlx, fdf->win, 316,300, 0xFF4500, "de maca");
-	mlx_key_hook(fdf->win, &key_hook, fdf);
-	mlx_loop(fdf->mlx);
-	
-*/
