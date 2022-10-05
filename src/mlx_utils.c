@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 19:17:32 by dofranci          #+#    #+#             */
-/*   Updated: 2022/09/28 01:25:53 by dofranci         ###   ########.fr       */
+/*   Created: 2022/10/05 05:01:33 by dofranci          #+#    #+#             */
+/*   Updated: 2022/10/05 05:49:51 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
-#include <string.h>
+#include "fdf.h"
 
-
-char	*ft_strtrim(char const *s1, char const *set)
+void isometric(float *x, float *y, int z)
 {
-	size_t	size;
-	
-	if (s1 == NULL || set == NULL)
-		return (NULL);
-	while (*s1 && ft_strchr(set, *s1))
-		s1++;
-	size = ft_strlen(s1);
-	while (size && ft_strchr(set, s1[size]))
-		size--;
-	return (ft_substr((char *)s1, 0, size + 1));
+	*x = (*x - *y) * cos(0.8);
+	*y = (*y + *y) * sin(0.8) - z;
 }

@@ -6,41 +6,27 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 23:39:14 by dofranci          #+#    #+#             */
-/*   Updated: 2022/09/27 01:19:52 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:15:37 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void print_mtx(char **mtx) //func de teste //tirar dps
+static int validation_argv(char *argv)
 {
-    int i = 0;
-    while (mtx[i++])
-        ft_printf("%s\n", mtx[i]);
-}
+	int count;
 
-static int validations(int argc, char **argv)
-{
-	int len;
-
-	len = ft_strlen(argv[1]);
-	if(argc != 2 || len == 0)
-	{
-		ft_printf("Arguments Error\n");
+	count = ft_strlen(argv);
+	count -= 4;
+	if(ft_strncmp(".fdf", argv + count, 4))
 		return(1);
-	}
-	else if(!ft_strnstr(argv[1], ".fdf", len))
-	{
-		ft_printf("File extension Error\n");
-		return(1);
-	}
 	return(0);
 }
 
 void start_fdf(t_fdf *fdf, char *file)
 {
 	start_matriz(fdf, file);
-	//start_mlx();
+	start_mlx(fdf);
 	return;
 }
 
@@ -50,8 +36,16 @@ int main(int argc, char *argv[])
 
 	fdf = NULL;
 	fdf = malloc(sizeof (t_fdf));
-	if(validations(argc, argv) == 1)
+	if(argc != 2)
+	{
+		ft_printf("Arguments Error (two arguments)\n");
 		return(1);
+	}
+	if(validation_argv(argv[1]) == 1)
+	{
+		ft_printf("File extension Error (.fdf)\n");
+		return(2);
+	}
 	start_fdf(fdf, argv[1]);
 	free(fdf);
 	return(0);

@@ -1,4 +1,4 @@
-FLAG = -Wall -Wextra -Werror -lmlx -lXext -lX11
+FLAG = -Wall -Wextra -Werror -lmlx -lXext -lX11 -lm
 
 NAME = fdf
 
@@ -6,6 +6,9 @@ INC = -I ./include
 
 SRC =	./src/main.c \
 		./src/start_matriz.c \
+		./src/exit.c \
+		./src/start_mlx.c \
+		./src/mlx_utils.c \
 
 LIBFTPATH = ./lib
 

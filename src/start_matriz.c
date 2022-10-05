@@ -6,40 +6,11 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 23:39:23 by dofranci          #+#    #+#             */
-/*   Updated: 2022/09/27 16:33:07 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/04 05:36:35 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static void	ft_free(char **split)
-{
-	int	i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
-
-static void	ft_free1(t_fdf *fdf)
-{
-	int i;
-	if (!fdf->map->matriz)
-		return;
-	i = 0;	
-	while (i < fdf->map->y)
-	{
-		free(fdf->map->matriz[i]);
-		i++;
-	}
-	free(fdf->map->matriz);
-}
 
 static void find_x(t_fdf *fdf, char **mtz)
 {
@@ -68,6 +39,26 @@ static void find_y(t_fdf *fdf)
 	fdf->map->y = i;
 }
 
+static int valid_map(char **mtz, t_fdf *fdf)
+{
+	int i;
+	
+	i = 0;
+	while(mtz[i])	
+		i++;
+	if(i != fdf->map->x)
+	{
+		ft_printf("Invalid map!");
+		ft_free(mtz);
+		free(fdf->map->line);
+		close(fdf->map->fd);
+		ft_free1(fdf);
+		free(fdf->map);
+		exit(1);
+	}
+	return(i);	
+}
+
 static void convert_matriz(t_fdf *fdf, char **mtz, char *file)
 {
 	int i;
@@ -77,11 +68,11 @@ static void convert_matriz(t_fdf *fdf, char **mtz, char *file)
 	mtz = NULL;
 	fdf->map->fd = open(file, O_RDONLY);
 	fdf->map->line = get_next_line(fdf->map->fd);
-	//ft_printf("%s", fdf->map->line);
 	while(fdf->map->line)
 	{
 		i = -1;
 		mtz = ft_split(fdf->map->line, ' ');
+		valid_map(mtz, fdf);
 			while(mtz[++i])
 					fdf->map->matriz[j][i] = ft_atoi(mtz[i]);
 		j++;
@@ -112,11 +103,7 @@ void start_matriz(t_fdf *fdf, char *file)
 		fdf->map->matriz[i] = (int *)malloc((fdf->map->x + 1) * sizeof(int));
 	// aloca espaço para a matriz baseado no numero de elementos x e y
 	convert_matriz(fdf, mtz, file);
-	// i = -1;
-	// j = 0;
-	// while(fdf->map->matriz[++i])
-	// 	ft_printf("%i", fdf->map->matriz[i][0]);
 	// converte a matriz de char obtida ao ler o mapa para uma matriz de int 
-	ft_free1(fdf);
-	free(fdf->map);
+	//ft_free1(fdf);
+	//free(fdf->map);
 }
