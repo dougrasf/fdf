@@ -6,19 +6,19 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 05:01:33 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/07 03:57:47 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/11 13:38:12 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include	"fdf.h"
 
-void    isometric(float *x, float *y, int z)
+void	isometric(float *x, float *y, int z)
 {
-    *x = (*x - *y) * cos(0.8);
-    *y = (*x + *y) * sin(0.8) - z;	
+	*x = (*x - *y) * cos(0.8);
+	*y = (*x + *y) * sin(0.8) - z;	
 }
 
-float bigger(float x, float y)
+float	bigger(float x, float y)
 {
 	if(x > y)
 		return(x);
@@ -26,7 +26,7 @@ float bigger(float x, float y)
 		return(y);
 }
 
-float mod(float i)
+float	mod(float i)
 {
 	if(i < 0)
 		return(-i);

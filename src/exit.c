@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:20:00 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/05 04:58:05 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:54:18 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ void	ft_free1(t_fdf *fdf)
 	free(fdf->map->matriz);
 }
 
-int close_window(int keycode, t_fdf *fdf)
+void close_window(t_fdf *fdf)
 {
-	if(keycode == 65307 || keycode == 113)
-	{
 		mlx_destroy_window(fdf->mlx,  fdf->win);
 		mlx_destroy_display(fdf->mlx);
 		mlx_loop_end(fdf->mlx);
@@ -54,6 +52,4 @@ int close_window(int keycode, t_fdf *fdf)
 		free(fdf->mlx);
 		free(fdf);
 		exit(0);
-	}
-	return (0);
 }

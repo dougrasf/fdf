@@ -6,13 +6,13 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 23:39:14 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/02 18:15:37 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/11 13:38:42 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int validation_argv(char *argv)
+static	int validation_argv(char *argv)
 {
 	int count;
 
@@ -23,14 +23,14 @@ static int validation_argv(char *argv)
 	return(0);
 }
 
-void start_fdf(t_fdf *fdf, char *file)
+static	void start_fdf(t_fdf *fdf, char *file)
 {
 	start_matriz(fdf, file);
 	start_mlx(fdf);
 	return;
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_fdf *fdf;
 

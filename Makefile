@@ -9,6 +9,8 @@ SRC =	./src/main.c \
 		./src/exit.c \
 		./src/start_mlx.c \
 		./src/mlx_utils.c \
+		./src/hooks.c \
+		
 
 LIBFTPATH = ./lib
 
