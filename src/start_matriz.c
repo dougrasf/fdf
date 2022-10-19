@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 23:39:23 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/04 05:36:35 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/14 03:23:25 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static void convert_matriz(t_fdf *fdf, char **mtz, char *file)
 {
 	int i;
 	int j;
-
+	char *color;
+	int colordec;
 	j = 0;
 	mtz = NULL;
 	fdf->map->fd = open(file, O_RDONLY);
@@ -74,7 +75,17 @@ static void convert_matriz(t_fdf *fdf, char **mtz, char *file)
 		mtz = ft_split(fdf->map->line, ' ');
 		valid_map(mtz, fdf);
 			while(mtz[++i])
+				{
 					fdf->map->matriz[j][i] = ft_atoi(mtz[i]);
+					color = ft_strchr(mtz[i], ',');
+					if(color != 0)
+					{
+						colordec = hextodec(color + 3);
+						fdf->map->matrizcolor[j][i] = colordec;
+					}
+					else
+						fdf->map->matrizcolor[j][i] = 0xffffff;
+				}
 		j++;
 		ft_free(mtz);
 		free(fdf->map->line);
@@ -92,18 +103,33 @@ void start_matriz(t_fdf *fdf, char *file)
 	mtz = NULL;
 	fdf->map = malloc(sizeof (t_map));
 	fdf->map->fd = open(file, O_RDONLY);
+	if(fdf->map->fd == -1 || !fdf->map)
+	{
+		free(fdf->map);
+		exit(1);
+	}
 	j = 0;
 	find_x(fdf, mtz);
 	// pega quantos elementos tem em x
 	find_y(fdf);
 	// pega quantos elementos tem em y
 	fdf->map->matriz = (int **)malloc((fdf->map->y + 1) * sizeof(int *));
+	fdf->map->matrizcolor = (int **)malloc((fdf->map->y + 1) * sizeof(int *));
+	if(!fdf->map->matriz || !fdf->map->matrizcolor)
+		exit(1);
 	i = -1;
 	while(++i < fdf->map->y)
+	{
 		fdf->map->matriz[i] = (int *)malloc((fdf->map->x + 1) * sizeof(int));
+		fdf->map->matrizcolor[i] = (int *)malloc((fdf->map->x + 1) * sizeof(int));
+		if(fdf->map->matriz[i] == NULL || fdf->map->matrizcolor[i] == NULL)
+			exit(1);
+	}
 	// aloca espaço para a matriz baseado no numero de elementos x e y
 	convert_matriz(fdf, mtz, file);
 	// converte a matriz de char obtida ao ler o mapa para uma matriz de int 
-	//ft_free1(fdf);
+	//ft_free1(fdf->map->matriz, fdf);
+	//ft_free1(fdf->map->matrizcolor, fdf);
 	//free(fdf->map);
+	//	free(fdf);
 }

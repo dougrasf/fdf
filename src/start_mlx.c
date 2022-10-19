@@ -12,6 +12,15 @@
 
 #include "fdf.h"
 
+void my_mlx_pixel_put(t_fdf *fdf, float x, float y, int color)
+{
+	char	*dst;
+	if(x < 0 || x > 1920 * 1080 * 4)
+		return;
+	dst = fdf->data->addr + (int)(y * fdf->data->size_line + x * (fdf->data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
 void	brasenham(t_fdf *fdf, t_pixel pixel) 
 {
 	float	x_step;
@@ -20,12 +29,15 @@ void	brasenham(t_fdf *fdf, t_pixel pixel)
 
 	pixel.z = (fdf->map->matriz[(int)pixel.y][(int)pixel.x]);
 	pixel.z1 = (fdf->map->matriz[(int)pixel.y1][(int)pixel.x1]);
+	pixel.color = (fdf->map->matrizcolor[(int)pixel.y][(int)pixel.x]);
 
 	pixel.x *= fdf->zoom;
 	pixel.y *= fdf->zoom;
 	pixel.x1 *= fdf->zoom;
 	pixel.y1 *= fdf->zoom;
-	// ZOOM 
+	pixel.z *= fdf->z_mov;
+	pixel.z1 *= fdf->z_mov;
+	// ZOOM
 
 	pixel.x += fdf->x_mov;
 	pixel.y += fdf->y_mov;
@@ -33,23 +45,21 @@ void	brasenham(t_fdf *fdf, t_pixel pixel)
 	pixel.y1 += fdf->y_mov;
 	//MOVIMENTO
 
-	if(pixel.z > 0 || pixel.z1 > 0)
-		pixel.color = 0xe80c0c;
-	else
-		pixel.color = 0xffffff;
-
-	isometric(&pixel.x, &pixel.y, pixel.z);
-	isometric(&pixel.x1, &pixel.y1, pixel.z1);
-
+	if(fdf->perspective == 1)
+	{
+		isometric(&pixel.x, &pixel.y, pixel.z, 0.8);
+		isometric(&pixel.x1, &pixel.y1, pixel.z1, 0.8);
+	}
 	x_step = pixel.x1 - pixel.x;
 	y_step = pixel.y1 - pixel.y;
 	max = bigger(mod(x_step), mod(y_step));
 	x_step /= max;
 	y_step /= max;
 
-	while((int)(pixel.x - pixel.x1) || (int)(pixel.y - pixel.y1))
+	while(((int)(pixel.x - pixel.x1)) || ((int)(pixel.y - pixel.y1)))
 	{
-		mlx_pixel_put(fdf->mlx, fdf->win, pixel.x, pixel.y, pixel.color);
+		//mlx_pixel_put(fdf->mlx, fdf->win, pixel.x, pixel.y, pixel.color);
+		my_mlx_pixel_put(fdf, pixel.x, pixel.y, pixel.color);
 		pixel.x += x_step;
 		pixel.y += y_step;
 	}
@@ -57,6 +67,7 @@ void	brasenham(t_fdf *fdf, t_pixel pixel)
 
 void	draw(t_fdf *fdf)
 {
+	init_img(fdf);
 	fdf->map->pixel = malloc(sizeof (t_pixel));
 	fdf->map->pixel->y = 0;
 	while (fdf->map->pixel->y < fdf->map->y)
@@ -80,11 +91,13 @@ void	draw(t_fdf *fdf)
 		}
 		fdf->map->pixel->y++;
 	}
+	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->data->img, 0, 0);
 	free(fdf->map->pixel);
 }
 
 void	start_mlx(t_fdf *fdf)
 {
+	fdf->data = malloc(sizeof (t_data));
 	fdf->mlx = mlx_init();
 	if(fdf->mlx == NULL)
 		return;
@@ -92,6 +105,10 @@ void	start_mlx(t_fdf *fdf)
 	if(fdf->win == NULL)
 		return;
 	fdf->zoom = 10;
+	fdf->x_mov = 100;
+	fdf->y_mov = 100;
+	fdf->z_mov = 1;
+	fdf->perspective = 1;
 	draw(fdf);
 	mlx_key_hook(fdf->win, hooks, fdf);
 	mlx_expose_hook(fdf->win, expose, fdf);
