@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 23:39:23 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/22 02:59:44 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/21 20:19:39 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static void convert_matriz(t_fdf *fdf, char **mtz, char *file)
 void start_matriz(t_fdf *fdf, char *file)
 {
 	int		i;
-	int		j;
 	char	**mtz;
 
 	mtz = NULL;
@@ -107,7 +106,6 @@ void start_matriz(t_fdf *fdf, char *file)
 		free(fdf->map);
 		exit(1);
 	}
-	j = 0;
 	find_x(fdf, mtz);
 	// pega quantos elementos tem em x
 	find_y(fdf);
