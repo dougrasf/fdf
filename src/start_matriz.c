@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 23:39:23 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/14 03:23:25 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/22 02:59:44 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int valid_map(char **mtz, t_fdf *fdf)
 		close(fdf->map->fd);
 		ft_free1(fdf);
 		free(fdf->map);
+		free(fdf);
 		exit(1);
 	}
 	return(i);	
@@ -62,9 +63,8 @@ static int valid_map(char **mtz, t_fdf *fdf)
 static void convert_matriz(t_fdf *fdf, char **mtz, char *file)
 {
 	int i;
-	int j;
+	static int j;
 	char *color;
-	int colordec;
 	j = 0;
 	mtz = NULL;
 	fdf->map->fd = open(file, O_RDONLY);
@@ -80,8 +80,7 @@ static void convert_matriz(t_fdf *fdf, char **mtz, char *file)
 					color = ft_strchr(mtz[i], ',');
 					if(color != 0)
 					{
-						colordec = hextodec(color + 3);
-						fdf->map->matrizcolor[j][i] = colordec;
+						fdf->map->matrizcolor[j][i] = hextodec(color + 3);
 					}
 					else
 						fdf->map->matrizcolor[j][i] = 0xffffff;

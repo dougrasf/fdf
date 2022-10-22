@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 05:01:33 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/20 01:16:37 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/21 15:09:14 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 // 	pixel->y1 = (pixel->x1 + pixel->y1) * sin(0.8) - pixel->z1;
 // }
 
-void	isometric(float *x, float *y, int z, double angle)
+void	isometric(float *x, float *y, int z)
 {
-	*x = (*x - *y) * cos(angle);
-	*y = (*x + *y) * sin(angle) - z;
+	*x = (*x - *y) * cos(0.8);
+	*y = (*x + *y) * sin(0.8) - z;
 }
 
 float	bigger(float x, float y)
@@ -42,10 +42,10 @@ float	mod(float i)
 		return(i);
 }
 
-void init_img(t_fdf *fdf)
+void init_img(t_fdf *fdf, t_data *data)
 {
-	fdf->data->img = mlx_new_image(fdf->mlx, 1920, 1080);
-	fdf->data->addr = mlx_get_data_addr(fdf->data->img, &fdf->data->bits_per_pixel, &fdf->data->size_line, &fdf->data->endian);
+	fdf->img = mlx_new_image(fdf->mlx, 1280, 720);
+	data->addr = mlx_get_data_addr(fdf->img, &data->bits_per_pixel, &data->size_line, &data->endian);
 }
 
 //string hexadecimal para inteiro decimal -> "0xffffff" = 16777215

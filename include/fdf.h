@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 01:17:59 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/20 01:16:48 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/21 15:33:35 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
 
 typedef struct s_data
 {
-	void *img;
 	char *addr;
 	int bits_per_pixel;
 	int size_line;
 	int endian;
-
+	char config;
+	float z_scale;
 } t_data;
 
 typedef struct s_pixel
@@ -36,8 +36,8 @@ typedef struct s_pixel
 	float x1;
 	float y;
 	float y1;
-	int z;
-	int z1;
+	float z;
+	float z1;
 	int color;
 } t_pixel;
 
@@ -58,27 +58,29 @@ typedef struct s_fdf
 	t_data *data;
 	void *mlx;
 	void *win;
+	void *img;
 	int zoom;
 	int x_mov;
 	int y_mov;
 	int z_mov;
 	int perspective;
 	int color;
+	int config;
+	char *buffer;
 } t_fdf;
 
 void	start_matriz(t_fdf *fdf, char *file);
 void	ft_free1(t_fdf *fdf);
-void	ft_free2(t_fdf *fdf);
 void	ft_free(char **split);
 void	start_mlx(t_fdf *fdf);
-void	isometric(float *x, float *y, int z, double angle);
+void	isometric(float *x, float *y, int z);
 void	draw(t_fdf *fdf);
-void	close_window(t_fdf *fdf);
+int		close_window(t_fdf *fdf);
 float	bigger(float x, float y);
 float	mod(float i);
 int		hooks(int keycode, t_fdf *fdf);
 int		expose(t_fdf *fdf);
-void	init_img(t_fdf *fdf);
+void	init_img(t_fdf *fdf, t_data *data);
 int		hextodec(char *hex);
 
 

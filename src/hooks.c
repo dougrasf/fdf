@@ -6,13 +6,13 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 14:57:26 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/18 21:08:28 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/22 02:46:49 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 /*	119 = w || 97 = a || 115 = s || 100 = d || 44 = , || 46 = . || 107 = k || 
-	108 = l || 105 = i || 112 = p */
+	108 = l || 105 = i || 112 = p  || 99 = c || 120 = x*/
 void controls(int keycode, t_fdf *fdf)
 {
 	if (keycode == 119)
@@ -41,6 +41,10 @@ void controls(int keycode, t_fdf *fdf)
 			fdf->zoom -= 1;
 	if(keycode == 46)
 			fdf->zoom += 1;
+	if(keycode == 99)
+		fdf->color = 1;
+	if(keycode == 120)
+		fdf->color = 0;
 }
 
 int hooks(int keycode, t_fdf *fdf)
