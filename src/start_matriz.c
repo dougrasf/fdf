@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 23:39:23 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/21 20:19:39 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/24 20:05:49 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,6 @@ void start_matriz(t_fdf *fdf, char *file)
 	}
 	// aloca espaço para a matriz baseado no numero de elementos x e y
 	convert_matriz(fdf, mtz, file);
+	
 	// converte a matriz de char obtida ao ler o mapa para uma matriz de int 
-	//ft_free1(fdf->map->matriz, fdf);
-	//ft_free1(fdf->map->matrizcolor, fdf);
-	//free(fdf->map);
-	//	free(fdf);
 }

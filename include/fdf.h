@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 01:17:59 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/21 15:33:35 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/24 20:08:22 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_map
 	int **matrizcolor;
 	int x;
 	int y;
+	int map_scale;
 } t_map;
 
 typedef struct s_fdf
@@ -62,7 +63,7 @@ typedef struct s_fdf
 	int zoom;
 	int x_mov;
 	int y_mov;
-	int z_mov;
+	float z_mov;
 	int perspective;
 	int color;
 	int config;
@@ -82,6 +83,6 @@ int		hooks(int keycode, t_fdf *fdf);
 int		expose(t_fdf *fdf);
 void	init_img(t_fdf *fdf, t_data *data);
 int		hextodec(char *hex);
-
+int		change_color(float z);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 14:57:26 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/22 02:46:49 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/24 20:53:28 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,6 @@
 	108 = l || 105 = i || 112 = p  || 99 = c || 120 = x*/
 void controls(int keycode, t_fdf *fdf)
 {
-	if (keycode == 119)
-		fdf->y_mov -= 20;
-	if (keycode == 97)
-		fdf->x_mov -= 20;
-	if (keycode == 115)
-		fdf->y_mov += 20;
-	if (keycode == 100)
-		fdf->x_mov += 20;
-	if (keycode == 107)
-		fdf->z_mov -= 1;
-	if (keycode == 108)
-		fdf->z_mov += 1;
 	if (keycode == 107)
 		fdf->z_mov -= 1;
 	if (keycode == 108)
@@ -50,6 +38,18 @@ void controls(int keycode, t_fdf *fdf)
 int hooks(int keycode, t_fdf *fdf)
 {
 	ft_printf("%i\n", keycode);
+	if (keycode == 119)
+		fdf->y_mov -= 20;
+	if (keycode == 97)
+		fdf->x_mov -= 20;
+	if (keycode == 115)
+		fdf->y_mov += 20;
+	if (keycode == 100)
+		fdf->x_mov += 20;
+	if (keycode == 107)
+		fdf->z_mov -= 0.1;
+	if (keycode == 108)
+		fdf->z_mov += 0.1;
 	controls(keycode, fdf);
 	if(keycode == 65307 || keycode == 113)
 	{	

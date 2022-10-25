@@ -7,10 +7,10 @@ INC = -I ./include
 SRC =	./src/main.c \
 		./src/start_matriz.c \
 		./src/exit.c \
-		./src/start_mlx.c \
-		./src/mlx_utils.c \
+		./src/draw.c \
+		./src/draw_utils.c \
 		./src/hooks.c \
-		
+		./src/color.c \
 
 LIBFTPATH = ./lib
 
