@@ -37,7 +37,6 @@ void controls(int keycode, t_fdf *fdf)
 
 int hooks(int keycode, t_fdf *fdf)
 {
-	ft_printf("%i\n", keycode);
 	if (keycode == 119)
 		fdf->y_mov -= 20;
 	if (keycode == 97)
