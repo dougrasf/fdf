@@ -6,12 +6,11 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:20:00 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/21 15:36:37 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/25 20:32:06 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
 
 void	ft_free(char **split)
 {
@@ -30,8 +29,9 @@ void	ft_free(char **split)
 
 void	ft_free1(t_fdf *fdf)
 {
-	int i;
-	i = 0;	
+	int	i;
+
+	i = 0;
 	while (i < fdf->map->y)
 	{
 		free(fdf->map->matriz[i]);
@@ -42,14 +42,14 @@ void	ft_free1(t_fdf *fdf)
 	free(fdf->map->matriz);
 }
 
-int close_window(t_fdf *fdf)
+int	close_window(t_fdf *fdf)
 {
-		mlx_destroy_window(fdf->mlx,  fdf->win);
-		mlx_destroy_display(fdf->mlx);
-		mlx_loop_end(fdf->mlx);
-		ft_free1(fdf);
-		free(fdf->map);
-		free(fdf->mlx);
-		free(fdf);
-		exit(0);
+	mlx_destroy_window(fdf->mlx, fdf->win);
+	mlx_destroy_display(fdf->mlx);
+	mlx_loop_end(fdf->mlx);
+	ft_free1(fdf);
+	free(fdf->map);
+	free(fdf->mlx);
+	free(fdf);
+	exit(0);
 }

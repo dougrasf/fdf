@@ -6,14 +6,13 @@
 /*   By: dofranci <dofranci@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 14:57:26 by dofranci          #+#    #+#             */
-/*   Updated: 2022/10/24 20:53:28 by dofranci         ###   ########.fr       */
+/*   Updated: 2022/10/25 20:44:15 by dofranci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-/*	119 = w || 97 = a || 115 = s || 100 = d || 44 = , || 46 = . || 107 = k || 
-	108 = l || 105 = i || 112 = p  || 99 = c || 120 = x*/
-void controls(int keycode, t_fdf *fdf)
+
+void	controls(int keycode, t_fdf *fdf)
 {
 	if (keycode == 107)
 		fdf->z_mov -= 1;
@@ -25,17 +24,17 @@ void controls(int keycode, t_fdf *fdf)
 		fdf->perspective = 0;
 	if (keycode == 99)
 		fdf->color = 1;
-	if(keycode == 44)
+	if (keycode == 44)
 			fdf->zoom -= 1;
-	if(keycode == 46)
+	if (keycode == 46)
 			fdf->zoom += 1;
-	if(keycode == 99)
+	if (keycode == 99)
 		fdf->color = 1;
-	if(keycode == 120)
+	if (keycode == 120)
 		fdf->color = 0;
 }
 
-int hooks(int keycode, t_fdf *fdf)
+int	hooks(int keycode, t_fdf *fdf)
 {
 	if (keycode == 119)
 		fdf->y_mov -= 20;
@@ -50,18 +49,18 @@ int hooks(int keycode, t_fdf *fdf)
 	if (keycode == 108)
 		fdf->z_mov += 0.1;
 	controls(keycode, fdf);
-	if(keycode == 65307 || keycode == 113)
+	if (keycode == 65307 || keycode == 113)
 	{	
 		close_window(fdf);
-		return(0);
+		return (0);
 	}
 	mlx_clear_window(fdf->mlx, fdf->win);
-	draw(fdf);
-	return(0);
+	draw(fdf, 0, -1);
+	return (0);
 }
 
-int expose(t_fdf *fdf)
+int	expose(t_fdf *fdf)
 {
-	draw(fdf);
-	return(0);
+	draw(fdf, 0, -1);
+	return (0);
 }
