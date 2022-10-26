@@ -45,6 +45,6 @@ Q or ESC -> Exit
 
 ------------------------------------------------------------------
 
-![image](https://user-images.githubusercontent.com/102628898/197909707-5d15e9d5-a80d-49ad-a6d5-f4966cd5fd8c.png)
+![image](https://user-images.githubusercontent.com/102628898/197910828-6ae831a2-5b8e-4105-9fdd-9a2d3a8d679a.png)
 
 Enjoy!
