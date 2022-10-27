@@ -39,27 +39,6 @@ static	void	find_y(t_fdf *fdf)
 	fdf->map->y = i;
 }
 
-static int	valid_map(char **mtz, t_fdf *fdf)
-{
-	int	i;
-
-	i = 0;
-	while (mtz[i])
-		i++;
-	if (i != fdf->map->x)
-	{
-		ft_printf("Invalid map!");
-		ft_free(mtz);
-		free(fdf->map->line);
-		close(fdf->map->fd);
-		ft_free1(fdf);
-		free(fdf->map);
-		free(fdf);
-		exit(1);
-	}
-	return (i);
-}
-
 static void	convert_matriz(t_fdf *fdf, char **mtz)
 {
 	int			i;
@@ -72,7 +51,6 @@ static void	convert_matriz(t_fdf *fdf, char **mtz)
 	{
 		i = -1;
 		mtz = ft_split(fdf->map->line, ' ');
-		valid_map(mtz, fdf);
 		while (mtz[++i])
 		{
 			fdf->map->matriz[j][i] = ft_atoi(mtz[i]);
